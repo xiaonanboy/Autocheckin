@@ -8,7 +8,6 @@ import os
 import json
 import smzdm
 import lenovoclub
-import huaweiclub
 import ecloud
 
 #联想签到cookies含有特殊符号"，需替换后json方可loads
@@ -47,7 +46,8 @@ def loadConfig(website):
                     print('第%d个账户实例配置出错，跳过该账户' % i, e)
                     continue
                 if website == "LENOVOCLUB":
-                    result_lenovo = lenovoclub.checkin(cookies)
+                    lenovoclub_acc = item['userid']
+                    result_lenovo = lenovoclub.checkin(cookies,lenovoclub_acc)
                     datalist.append(result_lenovo)
                 elif website == "SMZDM":
                     result_smzdm = smzdm.checkin(cookies)

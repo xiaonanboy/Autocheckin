@@ -1,7 +1,7 @@
 # Autocheckin python自动签到助手 
 感谢 [@liuqitoday](https://github.com/liuqitoday/checkin-helper) 的项目
 
-使用说明：在config.json中加入自己的cookie即可
+使用说明：在config.json中加入自己的cookie即可(config.json中userid键用于区分是哪个账户)
 
 ### 目前已实现
 

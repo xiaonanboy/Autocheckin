@@ -2,12 +2,15 @@
     "SEVERCHAN" : "",
     "LENOVOCLUB":[
         {
+            "userid" : "1",
             "cookies": ""
         },
         {
+            "userid": "2",
             "cookies": ""
         },
         {
+            "userid": "3",
             "cookies": ""
         }
     ],
@@ -20,6 +23,7 @@
 
     "HUAWEICLUB":[
         {
+            "userid": "1",
             "cookies": ""
         }
     ],
