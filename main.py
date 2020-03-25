@@ -8,6 +8,7 @@ import os
 import json
 import smzdm
 import lenovoclub
+import mlenovoclub
 import ecloud
 
 #联想签到cookies含有特殊符号"，需替换后json方可loads
@@ -46,12 +47,18 @@ def loadConfig(website):
                     print('第%d个账户实例配置出错，跳过该账户' % i, e)
                     continue
                 if website == "LENOVOCLUB":
-                    lenovoclub_acc = item['userid']
-                    result_lenovo = lenovoclub.checkin(cookies,lenovoclub_acc)
-                    datalist.append(result_lenovo)
+                    mlenovoclub_account = item['account']
+                    mlenovoclub_password = item['password']
+                    result_mlenovo = mlenovoclub.checkin(mlenovoclub_account,mlenovoclub_password)[0]
+                    if mlenovoclub.checkin(mlenovoclub_account,mlenovoclub_password)[1] == '1' :
+                        lenovoclub_acc = item['account']
+                        result_lenovo = lenovoclub.checkin(cookies,lenovoclub_acc)
+                        datalist.append(lenovoclub_acc + "\n\n账号密码登陆失败，尝试使用cookie登录\n\n***联想社区Cookie版***\n\n" + str(result_lenovo))
+                    else :
+                        datalist.append("***联想社区账号版***\n\n" + str(result_mlenovo))
                 elif website == "SMZDM":
                     result_smzdm = smzdm.checkin(cookies)
-                    datalist.append(result_smzdm)
+                    datalist.append("***什么值得买***\n\n" + str(result_smzdm))
                 elif website == "HUAWEICLUB":
                     result_huaweiclub = huaweiclub.checkin(cookies)
                     datalist.append(result_huaweiclub)
@@ -59,7 +66,7 @@ def loadConfig(website):
                     ecloud_signature = item['signature']
                     ecloud_sessionKey = item['sessionKey']
                     result_ecloud = ecloud.checkin(cookies,ecloud_signature,ecloud_sessionKey)
-                    datalist.append(result_ecloud)
+                    datalist.append("***天翼云盘***\n\n" + str(result_ecloud))
                 else :
                     print ("other")
             return (datalist)
@@ -81,5 +88,5 @@ if __name__ == "__main__":
     desp_smzdz = loadConfig('SMZDM')
     #loadConfig('HUAWEICLUB')
     desp_ecloud = loadConfig('ECLOUD')
-    desp = "***联想社区***\n\n" + ''.join(desp_lenovoclub) + "***什么值得买***\n\n" + ''.join(desp_smzdz) + "***天翼云盘***\n\n" + ''.join(desp_ecloud)
+    desp = ''.join(desp_lenovoclub) + ''.join(desp_smzdz) + ''.join(desp_ecloud)
     pushWechat(desp)
